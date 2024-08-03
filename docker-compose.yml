@@ -13,8 +13,8 @@ services:
             - ./docker/php/conf.d/local.ini:/usr/local/etc/php/conf.d/local.ini
             - ./docker/php/xdebug/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
         networks:
-            - laravel-11
-    laravel-11-web-server:
+            - quick-insight
+    quick-insight-web-server:
         build:
             context: ./docker/nginx/
             dockerfile: Dockerfile
@@ -22,14 +22,15 @@ services:
         restart: unless-stopped
         tty: true
         networks:
-            - laravel-11
+            - quick-insight
         volumes:
             - ./:/var/www
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
             - ./docker/nginx/logs/:/var/log/nginx/
         ports:
             - 80:80
-    laravel-11-db:
+            - 443:443
+    quick-insight-db:
         image: mysql:lts
         container_name: ${CONTAINER_DB_NAME}
         restart: unless-stopped
@@ -43,11 +44,11 @@ services:
         volumes:
             - ./docker/mysql/volume/:/usr/lib/mysql/
         networks:
-            - laravel-11
+            - quick-insight
 
 networks:
-    laravel-11:
+    quick-insight:
         driver: bridge
 volumes:
-    laravel-11:
+    quick-insight:
         driver: local
