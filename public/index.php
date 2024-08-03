@@ -12,10 +12,18 @@ use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$envRepositories = \Dotenv\Repository\RepositoryBuilder::createWithDefaultAdapters();
+$envRepositories->addAdapter(\Dotenv\Repository\Adapter\PutenvAdapter::class);
+$envRepositories = $envRepositories->immutable()->make();
+$env = Dotenv\Dotenv::create($envRepositories, __DIR__ . '/../');
+$env->load();
+
+$appEnv = $envRepositories->get('APP_ENV');
+
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
-if (false) { // Should be set to true in production
+if ($appEnv === 'production') { // Should be set to true in production
     $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }
 

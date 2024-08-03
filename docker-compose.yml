@@ -1,0 +1,54 @@
+services:
+    app:
+        build:
+            context: ./docker/php/
+            dockerfile: Dockerfile
+        container_name: ${CONTAINER_PHP_NAME}
+        environment:
+            - COMPOSE_PROJECT_NAME
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./:/var/www
+            - ./docker/php/conf.d/local.ini:/usr/local/etc/php/conf.d/local.ini
+            - ./docker/php/xdebug/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+        networks:
+            - quick-insight
+    quick-insight-web-server:
+        build:
+            context: ./docker/nginx/
+            dockerfile: Dockerfile
+        container_name: ${CONTAINER_WEB_SERVER_NAME}
+        restart: unless-stopped
+        tty: true
+        networks:
+            - quick-insight
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./docker/nginx/logs/:/var/log/nginx/
+        ports:
+            - 80:80
+            - 443:443
+    quick-insight-db:
+        image: mysql:lts
+        container_name: ${CONTAINER_DB_NAME}
+        restart: unless-stopped
+        tty: true
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - 3308:3306
+        volumes:
+            - ./docker/mysql/volume/:/usr/lib/mysql/
+        networks:
+            - quick-insight
+
+networks:
+    quick-insight:
+        driver: bridge
+volumes:
+    quick-insight:
+        driver: local
