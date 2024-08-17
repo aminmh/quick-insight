@@ -46,6 +46,10 @@ web-server:
 	$(docker-container-exec) ${CONTAINER_WEB_SERVER_NAME} bash
 db:
 	$(docker-container-exec) ${CONTAINER_DB_NAME} mysql -u root --password=${MYSQL_ROOT_PASSWORD}
+redis:
+	$(docker-container-exec) ${CONTAINER_REDIS_NAME} redis-cli
+redis-sh:
+	$(docker-container-exec) ${CONTAINER_REDIS_NAME} sh
 restart-nginx:
 	$(docker-container) restart ${CONTAINER_WEB_SERVER_NAME}
 cl: /bin/bash

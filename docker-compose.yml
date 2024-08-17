@@ -45,6 +45,16 @@ services:
             - ./docker/mysql/volume/:/usr/lib/mysql/
         networks:
             - quick-insight
+    quick-insight-redis:
+        image: redis:7-alpine
+        container_name: ${CONTAINER_REDIS_NAME}
+        restart: unless-stopped
+        tty: true
+        ports:
+            - 6379:6379
+        networks:
+            - quick-insight
+
 
 networks:
     quick-insight:
