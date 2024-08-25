@@ -5,9 +5,9 @@ namespace App\Modules\DataIngestion\Services;
 use App\Modules\DataIngestion\Contracts\DataCollectorInterface;
 use App\Modules\DataIngestion\Contracts\DataSourceInterface;
 
-class BatchDataCollector implements DataCollectorInterface
+class SheetDataCollector implements DataCollectorInterface
 {
-    public function collectData(DataSourceInterface $source): string
+    public function collectData(DataSourceInterface $source): array
     {
         $source->connect();
         $data = $source->readData();

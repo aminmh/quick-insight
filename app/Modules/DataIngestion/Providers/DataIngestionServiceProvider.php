@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Event;
 
 class DataIngestionServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->bind(
             \App\Modules\DataIngestion\Contracts\DataSourceInterface::class,
@@ -18,7 +18,7 @@ class DataIngestionServiceProvider extends ServiceProvider
 
         $this->app->bind(
             \App\Modules\DataIngestion\Contracts\DataCollectorInterface::class,
-            \App\Modules\DataIngestion\Services\BatchDataCollector::class
+            \App\Modules\DataIngestion\Services\SheetDataCollector::class
         );
 
         $this->app->bind(

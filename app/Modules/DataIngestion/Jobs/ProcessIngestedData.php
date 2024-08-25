@@ -19,7 +19,7 @@ class ProcessIngestedData implements ShouldQueue
         $this->source = $source;
     }
 
-    public function handle(IngestionManager $manager)
+    public function handle(IngestionManager $manager): void
     {
         $manager->ingest($this->source);
     }
