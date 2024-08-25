@@ -4,5 +4,5 @@ namespace App\Modules\DataIngestion\Contracts;
 
 interface DataParserInterface
 {
-    public function parse(string $data): array;
+    public function parse(array $data): array;
 }

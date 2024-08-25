@@ -6,8 +6,8 @@ use App\Modules\DataIngestion\Contracts\DataParserInterface;
 
 class JsonDataParser implements DataParserInterface
 {
-    public function parse(string $data): array
+    public function parse(array $data): array
     {
-        return json_decode($data, true);
+        return $data;
     }
 }

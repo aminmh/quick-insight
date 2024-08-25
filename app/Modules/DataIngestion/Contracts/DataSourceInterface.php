@@ -6,5 +6,5 @@ interface DataSourceInterface
 {
     public function connect(): void;
     public function disconnect(): void;
-    public function readData(): string;
+    public function readData(): array;
 }
